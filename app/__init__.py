@@ -23,5 +23,7 @@ def create_app():
 
 
 def register_blueprints(app):
-    pass
+    from app.stores import stores_bp
+
+    app.register_blueprint(stores_bp)
 
