@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block header %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="#">LOGO</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{{ url_for('customers_bp.stores') }}">首頁</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('stores_bp.index') }}">後台管理頁面</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider" /></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled">Disabled</a>
+        </li>
+        {% if session.get("name") != None and session.get("name") != '' %}
+        <li class="nav-item">
+          <a class="nav-link" href="#">{{ session.get("name") }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('users_bp.logout') }}">登出</a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('users_bp.register') }}">註冊</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('users_bp.login') }}">登入</a>
+        </li>
+        {% endif %}
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div id="bs-carousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#bs-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#bs-carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#bs-carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+            <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="https://picsum.photos/1200/230?random=22" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://picsum.photos/1200/230?random=23" class="d-block w-100">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="https://picsum.photos/1200/230?random=24" class="d-block w-100">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#bs-carousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#bs-carousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div> -->
+{% endblock %}

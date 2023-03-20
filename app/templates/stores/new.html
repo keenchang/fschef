@@ -1,0 +1,26 @@
+{% extends "header.html" %}
+
+{% block body %}
+<h1>新增餐廳</h1>
+
+<div class="col-md-4">
+  <form method="POST" action="{{ url_for('stores_bp.create') }}">
+    <div class="form-group">
+      <label for="name">名稱</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="name"/>
+    </div>
+
+    <div class="form-group">
+      <label for="phone">電話</label>
+      <input type="text" class="form-control" id="phone" name="phone" placeholder="phone"/>
+    </div>
+
+    <div class="form-group">
+      <label for="address">地址</label>
+      <input type="text" class="form-control" id="address" name="address" placeholder="address"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">新增</button>
+  </form>
+</div>
+{% endblock %}

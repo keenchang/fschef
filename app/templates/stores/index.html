@@ -1,1 +1,37 @@
-<h1>Hello world from the store blueprint!</h1>
+{% extends "header.html" %} 
+
+{% block body %}
+<a href="{{ url_for('stores_bp.new') }}" class="btn btn-info">新增餐廳</a>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>名稱</th>
+      <th>電話</th>
+      <th>地址</th>
+      <th>菜單類別</th>
+      <th>餐桌列表</th>
+      <th>編輯</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for store in stores %}
+    <tr>
+      <td>{{ store.name }}</td>
+      <td>{{ store.phone }}</td>
+      <td>{{ store.address }}</td>
+      <td>
+        <a href="#" class="btn btn-info">連結</a>
+      </td>
+      <td>
+        <a href="#" class="btn btn-info">連結</a>
+      </td>
+      <td>
+        <a href="{{ url_for('stores_bp.edit', id=store.id) }}" class="btn btn-info">修改</a>
+        <a href="{{ url_for('stores_bp.delete', id=store.id) }}" class="btn btn-danger" onclick="return confirm('確定刪除該餐廳？')">刪除</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
