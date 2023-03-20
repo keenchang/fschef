@@ -1,6 +1,7 @@
 import os, shutil
 from . import menus_bp
 from app.extensions import db
+from app.models.menu_types import Menu_type
 from app.utils import check_login_in
 from flask import render_template, redirect, url_for, request, current_app, session
 
@@ -8,11 +9,13 @@ from flask import render_template, redirect, url_for, request, current_app, sess
 @menus_bp.route('/menu_type/<int:menu_type_id>/menus')
 @check_login_in()
 def index(menu_type_id):
+    menu_type = Menu_type.query.get(menu_type_id)
+
     user_id = session.get("id")
     sql_cmd = f"SELECT * FROM menu{user_id} WHERE menu_type_id = {menu_type_id} ORDER BY id"
     menus = db.engine.execute(sql_cmd).fetchall()
 
-    return render_template("menus/index.html", menus=menus)
+    return render_template("menus/index.html", menus=menus, store_id=menu_type.store_id)
 
 
 @menus_bp.route('/menu_type/<int:menu_type_id>/menu/new')

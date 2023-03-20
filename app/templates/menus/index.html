@@ -6,9 +6,9 @@
     <div class="col-12">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item"><a href="#">gold fish</a></li>
-          <li class="breadcrumb-item active" aria-current="page">CSS select</li>
+          <li class="breadcrumb-item"><a href="{{ url_for('stores_bp.index') }}">Stores</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('menu_types_bp.index', store_id=store_id) }}">Menu_types</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Menus</li>
         </ol>
       </nav>
     </div>

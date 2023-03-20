@@ -26,9 +26,6 @@ def register_blueprints(app):
     from app.users import users_bp
     app.register_blueprint(users_bp)
 
-    from app.customers import customers_bp
-    app.register_blueprint(customers_bp)
-
     from app.menu_types import menu_types_bp
     app.register_blueprint(menu_types_bp)
 
@@ -38,4 +35,6 @@ def register_blueprints(app):
     from app.tables import tables_bp
     app.register_blueprint(tables_bp)
 
+    from app.customers import customers_bp
+    app.register_blueprint(customers_bp)
 
