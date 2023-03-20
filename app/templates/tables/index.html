@@ -33,7 +33,7 @@
             <td scope="row">{{ table.name }}</td>
             <td scope="row" id="tableStatus">{{ table.status.value }}</td>
             <td scope="row">
-              <a href="#" class="btn btn-info" role="button" aria-disabled="true" id="link">連結</a>
+              <a href="{{ url_for('orders_bp.new', table_id=table.id) }}" class="btn btn-info" role="button" aria-disabled="true" id="link">連結</a>
               <a href="{{ url_for('tables_bp.clear', id=table.id) }}" class="btn btn-danger disabled" role="button" aria-disabled="true" id="clear">清空</a>
             </td>
             <td>

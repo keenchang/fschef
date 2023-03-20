@@ -42,3 +42,6 @@ def register_blueprints(app):
     from app.customers import customers_bp
     app.register_blueprint(customers_bp)
 
+    from app.orders import orders_bp
+    app.register_blueprint(orders_bp)
+

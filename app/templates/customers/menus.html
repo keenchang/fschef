@@ -1,9 +1,5 @@
 {% extends "header.html" %}
 
-{% block css %}
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('customers_bp.static',filename='css/cart.css') }}">
-{% endblock %}
-
 {% block body %}
 <div class="container">
   <div class="row">
@@ -90,8 +86,6 @@
 
 {% block js %}
 <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
-<script type="module" src="{{ url_for('customers_bp.static', filename='/js/lib/fetcher.js') }}"></script>
-<script type="module" src="{{ url_for('customers_bp.static', filename='/js/lib/pagination.js') }}"></script>
 <script type="module" src="{{ url_for('customers_bp.static', filename='/js/menus.js') }}"></script>
 <script type="module" src="{{ url_for('customers_bp.static', filename='/js/cart.js') }}"></script>
 {% endblock %}

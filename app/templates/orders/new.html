@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block body %}
+{% if table.status.value == "已點餐" %}
+<h1>新增訂單</h1>
+{% else %}
+<h1>顯示訂單</h1>
+{% endif %}
+
+<div class="col-md-4">
+  <table class="table table-image" data-table-id="{{ table.id }}" data-table-status="{{ table.status.value }}">
+    <thead>
+      <tr>
+        <th scope="col">圖示</th>
+        <th scope="col">名稱</th>
+        <th scope="col">數量</th>
+        <th scope="col">價格</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order_info in order_infos.values() %}
+      <tr>
+        <td scope="row"><img class="card-img-top" src="/static/{{ order_info['imgPath'] }}" alt="Card image cap" style="width:100px;"></td>
+        <td scope="row">{{ order_info['name'] }}</td>
+        <td scope="row">{{ order_info['count'] }}</td>
+        <td scope="row">{{ order_info['price'] }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div><button type="submit" class="btn btn-primary" id="accept" disabled>接收</button></div>
+  <br>
+  <div>
+    <button type="submit" class="btn btn-primary" id="cancel" disabled>退回</button>
+    <input type="text" id="comment" name="comment" disabled>
+  </div>  
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+<script type="module" src="{{ url_for('orders_bp.static', filename='/js/check_order.js') }}"></script>
+{% endblock %}

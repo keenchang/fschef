@@ -1,7 +1,6 @@
 from . import customers_bp
 from app import parameters
-from app.extensions import db
-from app.extensions import socketio
+from app.extensions import db, socketio
 from app.models.stores import Store
 from app.models.tables import Table, TableState
 from app.models.menu_types import Menu_type
@@ -77,4 +76,9 @@ def send_order(message):
     parameters.order_list[key_str] = message
 
     emit('sendOrderStatus', message, broadcast=True)
+
+
+@socketio.on('accept_order')
+def accept_order(message):
+    emit(f"acceptOrderStatus{message['tableId']}", message, broadcast=True)
 
