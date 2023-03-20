@@ -1,7 +1,11 @@
 import os
 from flask import Flask
+from app import parameters
 from app.extensions import db, socketio
 from app.models import users, stores, menu_types, tables, orders
+
+# 取得global parameters
+parameters.init()
 
 
 def create_app():

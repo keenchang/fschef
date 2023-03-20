@@ -1,8 +1,9 @@
 from . import customers_bp
+from app import parameters
 from app.extensions import db
 from app.extensions import socketio
 from app.models.stores import Store
-from app.models.tables import Table
+from app.models.tables import Table, TableState
 from app.models.menu_types import Menu_type
 from flask_socketio import emit
 from flask import render_template, request, jsonify
@@ -62,4 +63,18 @@ def filter():
 @socketio.on('cart')
 def handle_cart(message):
     emit(f"changeCart{message['tableId']}", message, broadcast=True)
+
+
+@socketio.on('send_order')
+def send_order(message):
+    key_str = 'table' + message['tableId']
+    table = Table.query.get(message['tableId'])
+
+    table.status = TableState.ORDER
+    db.session.commit()
+
+    message['tableStatus'] = table.status.value
+    parameters.order_list[key_str] = message
+
+    emit('sendOrderStatus', message, broadcast=True)
 
