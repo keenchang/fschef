@@ -1,0 +1,52 @@
+.main {
+  width: 100%;
+  height: 2000px;
+  display: flex;
+  background-color: aqua;
+  position: relative;
+}
+
+.adv {
+  width: 30px;
+  height: 50%;
+  background-color: #ddd;
+  opacity: 0.5;
+  position: fixed;
+  top: 100px;
+  right: 0px;
+}
+
+.cart {
+  /* visibility: hidden; */
+  display: none;
+  z-index: 9999;
+}
+
+.cart-icon {
+  display: block;
+}
+
+.close {
+  /* color: blue; */
+  background-color: red;
+}
+
+.adv:hover {
+  width: 80%;
+  height: 80%;
+  background-color: #fff;
+  opacity: 1;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  transition: 1s;
+}
+
+.adv:hover .cart {
+  /* visibility: visible; */
+  display: block;
+}
+
+.adv:hover .cart-icon {
+  display: none;
+}

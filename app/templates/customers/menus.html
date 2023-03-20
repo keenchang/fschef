@@ -1,0 +1,97 @@
+{% extends "header.html" %}
+
+{% block css %}
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('customers_bp.static',filename='css/cart.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('customers_bp.stores') }}">Stores</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('customers_bp.tables', store_id=store_id) }}">gold fish</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Menus</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-3">
+      <div class="menu">
+        <div class="list-group" id="menu-type-list" data-user-id="{{ user_id }}" data-store-id="{{ store_id }}">
+          <div class="list-group-item list-group-item-action" data-menu-type-id="0">所有餐點</div>
+          {% for menu_type in menu_types %}
+          <div class="list-group-item list-group-item-action" data-menu-type-id="{{ menu_type.id }}"> {{ menu_type.name }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row g-4" id="card-list"></div>
+      <div class="row mt-5">
+        <div class="col-12">
+          <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center" id="page-list">
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="adv">
+  <div class="cart-icon">
+    <i class="fa-solid fa-cart-shopping"></i>
+  </div>
+
+  <section class="cart">
+    <h2>購物車</h2>
+    <table class="table cart-item-table">
+      <thead>
+        <tr>
+          <th scope="col">圖示</th>
+          <th scope="col">項目</th>
+          <th scope="col">數量</th>
+          <th scope="col">單價</th>
+          <th scope="col">小計</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"></td>
+          <td>總價</td>
+          <td><span class="total-price">$0</span></td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="row">
+      <div class="col-sm-12 d-flex justify-content-between">
+        <div><button class="btn btn-outline-dark empty-cart">清空購物車</button></div>
+        <div>訂單狀態: <p id="status">未點餐</p></div>
+        <div>
+          <button class="btn btn-danger" id="checkout" data-store-id="{{ store_id }}" data-table-id="{{ table_id }}">結帳</button>
+          <a class="btn btn-primary" id="newebpay" href="#" role="button">藍新付款</a>
+          <a class="btn btn-success" id="linepay" href="#" role="button">line pay付款</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %} 
+
+{% block js %}
+<script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+<script type="module" src="{{ url_for('customers_bp.static', filename='/js/lib/fetcher.js') }}"></script>
+<script type="module" src="{{ url_for('customers_bp.static', filename='/js/lib/pagination.js') }}"></script>
+<script type="module" src="{{ url_for('customers_bp.static', filename='/js/menus.js') }}"></script>
+<script type="module" src="{{ url_for('customers_bp.static', filename='/js/cart.js') }}"></script>
+{% endblock %}
