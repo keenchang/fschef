@@ -21,7 +21,7 @@
       <td>{{ store.phone }}</td>
       <td>{{ store.address }}</td>
       <td>
-        <a href="#" class="btn btn-info">連結</a>
+        <a href="{{ url_for('menu_types_bp.index', store_id=store.id) }}" class="btn btn-info">連結</a>
       </td>
       <td>
         <a href="#" class="btn btn-info">連結</a>

@@ -1,0 +1,29 @@
+{% extends "header.html" %} 
+
+{% block body %}
+<a href="{{ url_for('menu_types_bp.new', store_id=store_id) }}" class="btn btn-info">新增菜單類別</a>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>菜單類別</th>
+      <th>菜品新增</th>
+      <th>菜品列表</th>
+      <th>編輯</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for menu_type in menu_types %}
+    <tr>
+      <td>{{ menu_type.name }}</td>
+      <td><a href="#" class="btn btn-info">新增菜品</a></td>
+      <td><a href="#" class="btn btn-info">連結</a></td>
+      <td>
+        <a href="{{ url_for('menu_types_bp.edit', id=menu_type.id) }}" class="btn btn-info">修改</a>
+        <a href="{{ url_for('menu_types_bp.delete', id=menu_type.id) }}" class="btn btn-danger" onclick="return confirm('確定刪除該菜單類別？')">刪除</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

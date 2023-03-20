@@ -1,0 +1,16 @@
+{% extends "header.html" %}
+
+{% block body %}
+<h1>新增菜單類別</h1>
+
+<div class="col-md-4">
+  <form method="POST" action="{{ url_for('menu_types_bp.create', store_id=store.id) }}">
+    <div class="form-group">
+      <label for="name">菜單類別</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="菜單類別"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">新增</button>
+  </form>
+</div>
+{% endblock %}
