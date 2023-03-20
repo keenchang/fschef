@@ -1,10 +1,7 @@
 import os
 from flask import Flask
-from flask_socketio import SocketIO
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-socketio = SocketIO()
+from app.extensions import db, socketio
+from app.models import users, stores, menu_types, tables, orders
 
 
 def create_app():
@@ -24,6 +21,8 @@ def create_app():
 
 def register_blueprints(app):
     from app.stores import stores_bp
-
     app.register_blueprint(stores_bp)
+
+    from app.users import users_bp
+    app.register_blueprint(users_bp)
 
