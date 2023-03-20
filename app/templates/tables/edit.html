@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>編輯餐桌</h1>
+
+<div class="col-md-4">
+  <form method="POST" action="{{ url_for('tables_bp.update', id=table.id) }}">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" value="{{ table.name }}"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">編輯</button>
+  </form>
+</div>
+{% endblock %}

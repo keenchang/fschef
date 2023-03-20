@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>新增餐桌</h1>
+
+<div class="col-md-4">
+  <form method="POST" action="{{ url_for('tables_bp.create', store_id=store_id) }}">
+    <div class="form-group">
+      <label for="name">名稱</label>
+      <input type="text" class="form-control" id="name" name="name" placeholder="name"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">新增</button>
+  </form>
+</div>
+{% endblock %}
