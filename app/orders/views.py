@@ -27,14 +27,20 @@ def new(table_id):
     table = Table.query.get(table_id)
 
     key_str = 'table' + str(table_id)
-    order_infos = parameters.order_list[key_str]
+    if key_str in parameters.order_list:
+        order_infos = parameters.order_list[key_str]
 
-    order_infos.pop('storeId', None)
-    order_infos.pop('tableId', None)
-    order_infos.pop('tableStatus', None)
-    order_infos.pop('msg', None)
+        order_infos.pop('storeId', None)
+        order_infos.pop('tableId', None)
+        order_infos.pop('tableStatus', None)
+        order_infos.pop('msg', None)
     
-    return render_template('orders/new.html', order_infos=order_infos, table=table)
+        return render_template('orders/new.html', order_infos=order_infos, table=table)
+    else:
+        table.status = TableState.NOT_ORDER
+        db.session.commit()
+
+        return redirect(url_for('tables_bp.index', store_id=table.store_id))
 
 
 @orders_bp.route('/api/order/create', methods=['POST'])

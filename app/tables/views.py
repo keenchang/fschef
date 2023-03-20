@@ -1,4 +1,5 @@
 from . import tables_bp
+from app import parameters
 from app.extensions import db
 from app.models.stores import Store
 from app.models.tables import Table, TableState
@@ -68,15 +69,14 @@ def delete(id):
 @tables_bp.route('/table/<int:id>/clear')
 @check_login_in()
 def clear(id):
-    # table = Table.query.get(id)
+    table = Table.query.get(id)
 
-    # table.status = TableState.NOT_ORDER
-    # db.session.commit()
+    table.status = TableState.NOT_ORDER
+    db.session.commit()
 
-    # key_str = 'table' + str(id)
-    # if key_str in parameters.order_list:
-    #     parameters.order_list[key_str] = {}
+    key_str = 'table' + str(id)
+    if key_str in parameters.order_list:
+        parameters.order_list[key_str] = {}
 
-    # return redirect(url_for('tables_bp.index', id=table.store_id))
-    return '123'
+    return redirect(url_for('tables_bp.index', store_id=table.store_id))
 
