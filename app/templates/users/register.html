@@ -1,0 +1,33 @@
+{% extends "base.html" %} 
+
+{% block body %}
+<div class="container">
+  <main class="form-signin w-100 m-auto">
+    <form method="post" action="{{ url_for('users_bp.register') }}">
+      <h1 class="h3 mb-3 fw-normal">會員註冊</h1>
+
+      <div class="form-floating">
+        <label for="name">用戶名</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="name">
+      </div>
+      <div class="form-floating">
+        <label for="email">電子郵件</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+      </div>
+      <div class="form-floating">
+        <label for="password">密碼</label>
+        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+      </div>
+
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">註冊</button>
+      <p class="mt-5 mb-3 text-muted">© 2017–2022</p>
+    </form>
+    <a href="{{ url_for('users_bp.login') }}" class="btn btn-info">登入</a>
+  </main>
+</div>
+{% endblock %}

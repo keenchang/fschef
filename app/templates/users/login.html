@@ -1,0 +1,19 @@
+{% extends "base.html" %} 
+
+{% block body %}
+<h1>會員登入</h1>
+
+<form method="post" action="{{ url_for('users_bp.login') }}">
+  <label for="username">用戶名：</label>
+  <input type="text" id="name" name="name" required>
+
+  <br>
+
+  <label for="password">密碼：</label>
+  <input type="password" id="password" name="password" required>
+
+  <br>
+
+  <input type="submit" value="登入">
+</form>
+{% endblock %}
