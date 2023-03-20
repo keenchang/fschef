@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>藍新付款</h1>
+
+<form method="POST" action="https://ccore.newebpay.com/MPG/mpg_gateway">
+  <input name="MerchantID" value="{{ form_info['merchant_id'] }}" readonly>
+  <input name="Version" value="{{ form_info['version'] }}" readonly>
+  <input name="TradeInfo" value="{{ form_info['trade_info'] }}" readonly>
+  <input name="TradeSha" value="{{ form_info['trade_sha'] }}" readonly>
+
+  <button type="submit" class="btn btn-primary">付款</button>
+</form>
+{% endblock %}
+

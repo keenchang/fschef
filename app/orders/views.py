@@ -7,7 +7,7 @@ from app.extensions import db, socketio
 from app.models.orders import Order
 from app.models.stores import Store
 from app.models.tables import Table, TableState
-from app.utils import check_login_in, get_auth_signature
+from app.utils import check_login_in, get_auth_signature, mpg
 
 # line pay api的headers參數
 channel_id = os.environ.get('CHANNEL_ID')
@@ -16,9 +16,9 @@ uri = "/v3/payments/request"
 nonce = str(uuid.uuid4())
 
 # 藍新金流api的參數
-# mpg_merchant_id = os.environ.get('MPG_MERCHANT_ID')
-# mpg_iv = os.environ.get('MPG_IV')
-# mpg_key = os.environ.get('MPG_KEY')
+mpg_merchant_id = os.environ.get('MPG_MERCHANT_ID')
+mpg_iv = os.environ.get('MPG_IV')
+mpg_key = os.environ.get('MPG_KEY')
 
 
 @orders_bp.route('/table/<int:table_id>/order/new')
@@ -169,39 +169,41 @@ def pay(order_id):
         return redirect(url_for('menus', store_id=table.store_id, table_id=table.id))
 
 
-# @orders_bp.route('/order/<int:order_id>/blue_pay')
-# def blue_pay(order_id):
-#     order = Order.query.get(order_id)
+@orders_bp.route('/order/<int:order_id>/blue_pay')
+def blue_pay(order_id):
+    order = Order.query.get(order_id)
+    table = Table.query.get(order.table_id)
+    store = Store.query.get(table.store_id)
 
-#     records = order.record
-#     id_list, num_list = '', []
-#     for record in records:
-#         num_list.append(int(record[1]))
-#         id_list += record[0] + ','
-#     id_list = id_list[:-1]        
+    records = order.record
+    id_list, num_list = '', []
+    for record in records:
+        num_list.append(int(record[1]))
+        id_list += record[0] + ','
+    id_list = id_list[:-1]        
 
-#     sql_cmd = f"SELECT name, price FROM menu5 WHERE id IN (" + id_list + ")"
-#     menu_infos = db.engine.execute(sql_cmd).fetchall()
-#     menu_infos = np.array(menu_infos).T.tolist()
+    sql_cmd = f"SELECT name, price FROM menu{store.user_id} WHERE id IN (" + id_list + ")"
+    menu_infos = db.engine.execute(sql_cmd).fetchall()
+    menu_infos = np.array(menu_infos).T.tolist()
 
-#     name_list = menu_infos[0]
-#     price_list = menu_infos[1]
-#     price_list = [int(x) for x in price_list]
+    name_list = menu_infos[0]
+    price_list = menu_infos[1]
+    price_list = [int(x) for x in price_list]
 
-#     amount = np.sum(np.array(price_list) * np.array(num_list))
-#     products_name = "餐點"
+    amount = np.sum(np.array(price_list) * np.array(num_list))
+    products_name = "餐點"
 
-#     data = {
-#         "order_id": order.id, 
-#         "amount": amount, 
-#         "products_name": products_name, 
-#         "email": "test@gmail.com", 
-#         "ReturnURL": "https://tw.news.yahoo.com/", 
-#         "NotifyURL": "https://tw.news.yahoo.com/"
-#     }
-#     form_info = mpg(mpg_key, mpg_iv, mpg_merchant_id, data).gen_form_info()
+    data = {
+        "order_id": order.id, 
+        "amount": amount, 
+        "products_name": products_name, 
+        "email": "test@gmail.com", 
+        "ReturnURL": "https://tw.news.yahoo.com/", 
+        "NotifyURL": "https://tw.news.yahoo.com/"
+    }
+    form_info = mpg(mpg_key, mpg_iv, mpg_merchant_id, data).gen_form_info()
 
-#     return render_template("orders/newebpay.html", form_info=form_info)
+    return render_template("orders/newebpay.html", form_info=form_info)
 
 
 @orders_bp.route('/order/<int:order_id>/checkout')
