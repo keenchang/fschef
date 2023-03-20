@@ -32,3 +32,6 @@ def register_blueprints(app):
     from app.menu_types import menu_types_bp
     app.register_blueprint(menu_types_bp)
 
+    from app.menus import menus_bp
+    app.register_blueprint(menus_bp)
+

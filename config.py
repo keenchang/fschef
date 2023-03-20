@@ -15,6 +15,9 @@ class Config:
     # Settings applicable to all environments
     SECRET_KEY = os.getenv('SECRET_KEY', default='1234')
 
+    # settings for folder of save images
+    UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
+
     # settings for Database
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', default=False)

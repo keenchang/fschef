@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>編輯菜品</h1>
+
+<div class="col-md-4">
+  <form method="POST" action="{{ url_for('menus_bp.update', id=menu.id) }}" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" value="{{ menu.name }}"/>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" class="form-control" id="description" name="description" value="{{ menu.description }}"/>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="number" class="form-control" id="price" name="price" value="{{ menu.price }}" min="0"/>
+    </div>
+
+    <div class="form-group">
+      <label for="img">Image</label>
+      <input type="file" name="img" accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-primary">編輯</button>
+  </form>
+</div>
+{% endblock %}

@@ -16,8 +16,12 @@
     {% for menu_type in menu_types %}
     <tr>
       <td>{{ menu_type.name }}</td>
-      <td><a href="#" class="btn btn-info">新增菜品</a></td>
-      <td><a href="#" class="btn btn-info">連結</a></td>
+      <td>
+        <a href="{{ url_for('menus_bp.new', menu_type_id=menu_type.id) }}" class="btn btn-info">新增菜品</a>
+      </td>
+      <td>
+        <a href="{{ url_for('menus_bp.index', menu_type_id=menu_type.id) }}" class="btn btn-info">連結</a>
+      </td>
       <td>
         <a href="{{ url_for('menu_types_bp.edit', id=menu_type.id) }}" class="btn btn-info">修改</a>
         <a href="{{ url_for('menu_types_bp.delete', id=menu_type.id) }}" class="btn btn-danger" onclick="return confirm('確定刪除該菜單類別？')">刪除</a>
