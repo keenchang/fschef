@@ -1,6 +1,10 @@
+import os
 from flask import current_app
 from app.extensions import db
 import sqlalchemy as sa
+from sqlalchemy import create_engine, text
+
+engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URI'))
 
 
 def create_table(schema_name, table_name, cmd):
@@ -22,8 +26,9 @@ def create_table(schema_name, table_name, cmd):
         FOR EACH ROW EXECUTE PROCEDURE {schema}.refresh_updated_at();
         """
 
-    with current_app.app_context():
-        db.engine.execute(cmd)
-        db.engine.execute(sa.text(create_refresh_updated_at_func.format(schema=schema_name)))
-        db.engine.execute(sa.text(create_trigger.format(schema=schema_name, table=table_name)))
+    with engine.connect() as conn:
+        conn.execute(text(cmd))
+        conn.execute(sa.text(create_refresh_updated_at_func.format(schema=schema_name)))
+        conn.execute(sa.text(create_trigger.format(schema=schema_name, table=table_name)))
+        conn.commit()
 

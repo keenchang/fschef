@@ -8,6 +8,9 @@ from app.models.orders import Order
 from app.models.stores import Store
 from app.models.tables import Table, TableState
 from app.utils import check_login_in, get_auth_signature, mpg
+from sqlalchemy import create_engine, text
+
+engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URI'))
 
 # line pay api的headers參數
 channel_id = os.environ.get('CHANNEL_ID')
@@ -111,8 +114,12 @@ def pay(order_id):
         id_list += record[0] + ','
     id_list = id_list[:-1] 
 
-    sql_cmd = f"SELECT name, price FROM menu{store.user_id} WHERE id IN (" + id_list + ")"
-    menu_infos = db.engine.execute(sql_cmd).fetchall()
+    sql_cmd = text(f"SELECT name, price FROM menu{store.user_id} WHERE id IN (" + id_list + ")")
+
+    with engine.connect() as conn:
+        menu_infos = conn.execute(sql_cmd).fetchall()
+        conn.commit()
+    
     menu_infos = np.array(menu_infos).T.tolist()
 
     name_list = menu_infos[0]
@@ -182,8 +189,12 @@ def blue_pay(order_id):
         id_list += record[0] + ','
     id_list = id_list[:-1]        
 
-    sql_cmd = f"SELECT name, price FROM menu{store.user_id} WHERE id IN (" + id_list + ")"
-    menu_infos = db.engine.execute(sql_cmd).fetchall()
+    sql_cmd = text(f"SELECT name, price FROM menu{store.user_id} WHERE id IN (" + id_list + ")")
+
+    with engine.connect() as conn:
+        menu_infos = conn.execute(sql_cmd).fetchall()
+        conn.commit()
+    
     menu_infos = np.array(menu_infos).T.tolist()
 
     name_list = menu_infos[0]

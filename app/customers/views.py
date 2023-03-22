@@ -1,3 +1,4 @@
+import os
 from . import customers_bp
 from app import parameters
 from app.extensions import db, socketio
@@ -6,6 +7,9 @@ from app.models.tables import Table, TableState
 from app.models.menu_types import Menu_type
 from flask_socketio import emit
 from flask import render_template, request, jsonify
+from sqlalchemy import create_engine, text
+
+engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URI'))
 
 
 # 前台使用者功能
@@ -29,8 +33,11 @@ def menus(store_id, table_id):
     menu_types = Menu_type.query.filter_by(store_id=store_id).order_by(Menu_type.id).all()
 
     user_id = store.user_id
-    sql_cmd = f"SELECT * FROM menu_type INNER JOIN menu{user_id} ON menu_type.id=menu{user_id}.menu_type_id Where store_id={store_id};"
-    menus = db.engine.execute(sql_cmd).fetchall()
+    sql_cmd = text(f"SELECT * FROM menu_type INNER JOIN menu{user_id} ON menu_type.id=menu{user_id}.menu_type_id Where store_id={store_id};")
+
+    with engine.connect() as conn:
+        menus = conn.execute(sql_cmd).fetchall()
+        conn.commit()
 
     return render_template('customers/menus.html', menu_types=menu_types, menus=menus, 
                            user_id=user_id, store_id=store_id, table_id=table_id)
@@ -44,17 +51,24 @@ def filter():
     menu_type_id = data.get('menu_type_id')
 
     if menu_type_id == '0':
-        sql_cmd = f"SELECT * FROM menu_type INNER JOIN menu{user_id} ON menu_type.id=menu{user_id}.menu_type_id Where store_id={store_id};"
+        sql_cmd = text(f"SELECT * FROM menu_type INNER JOIN menu{user_id} ON menu_type.id=menu{user_id}.menu_type_id Where store_id={store_id};")
     else:
-        sql_cmd = f"SELECT * FROM menu_type INNER JOIN menu{user_id} ON menu_type.id=menu{user_id}.menu_type_id Where menu_type_id={menu_type_id};"
-    menus = db.engine.execute(sql_cmd).fetchall()
+        sql_cmd = text(f"SELECT * FROM menu_type INNER JOIN menu{user_id} ON menu_type.id=menu{user_id}.menu_type_id Where menu_type_id={menu_type_id};")
+
+    with engine.connect() as conn:
+        menus = conn.execute(sql_cmd).fetchall()
+        conn.commit()
 
     # 讓menus變成2D list
-    menus = [dict(row) for row in menus]
+    menus_ = []
+    for row in menus:
+        r = {'id': row.id, "name": row.name, "price": row.price, "img_path": row.img_path}
+        menus_.append(r)
+
     menu_lists = []
     batch_size = 3
-    for i in range(0, len(menus), batch_size):
-       menu_lists.append(menus[i:i+batch_size])
+    for i in range(0, len(menus_), batch_size):
+       menu_lists.append(menus_[i:i+batch_size])
 
     return jsonify({'menus': menu_lists})
 
