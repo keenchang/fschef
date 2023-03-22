@@ -19,7 +19,7 @@ class Config:
     UPLOAD_FOLDER = os.getenv('UPLOAD_FOLDER')
 
     # settings for Database
-    SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL').replace("postgres", "postgresql")
     SQLALCHEMY_TRACK_MODIFICATIONS = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS', default=False)
 
     # Setings for Session and Cookie

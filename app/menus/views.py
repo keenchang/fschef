@@ -6,7 +6,7 @@ from app.utils import check_login_in
 from flask import render_template, redirect, url_for, request, current_app, session
 from sqlalchemy import create_engine, text
 
-engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URI'))
+engine = create_engine(os.getenv('DATABASE_URL').replace("postgres", "postgresql"))
 
 
 @menus_bp.route('/menu_type/<int:menu_type_id>/menus')

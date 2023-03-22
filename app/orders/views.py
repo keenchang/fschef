@@ -10,7 +10,7 @@ from app.models.tables import Table, TableState
 from app.utils import check_login_in, get_auth_signature, mpg
 from sqlalchemy import create_engine, text
 
-engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URI'))
+engine = create_engine(os.getenv('DATABASE_URL').replace("postgres", "postgresql"))
 
 # line pay api的headers參數
 channel_id = os.environ.get('CHANNEL_ID')

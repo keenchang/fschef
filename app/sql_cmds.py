@@ -4,7 +4,7 @@ from app.extensions import db
 import sqlalchemy as sa
 from sqlalchemy import create_engine, text
 
-engine = create_engine(os.getenv('SQLALCHEMY_DATABASE_URI'))
+engine = create_engine(os.getenv('DATABASE_URL').replace("postgres", "postgresql"))
 
 
 def create_table(schema_name, table_name, cmd):
