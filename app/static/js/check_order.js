@@ -1,4 +1,18 @@
-import { fetchWithParams } from "./lib/fetcher.js";
+function fetchWithParams(path, method, params) {
+  const body = JSON.stringify(params);
+
+  return fetch(path, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  })
+    .then((response) => response.json())
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
 let orderForm = document.querySelector("table");
 let tableId = orderForm.dataset.tableId;

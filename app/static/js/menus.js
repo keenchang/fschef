@@ -1,5 +1,48 @@
-import { fetchWithParams } from "./lib/fetcher.js";
-import { addPagination } from "./lib/pagination.js";
+function fetchWithParams(path, method, params) {
+  const body = JSON.stringify(params);
+
+  return fetch(path, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: body,
+  })
+    .then((response) => response.json())
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function addPagination(pageList, data) {
+  pageList.replaceChildren();
+
+  const totalPages = data.length;
+
+  let pageOptions = "";
+  for (let index = 1; index <= totalPages; index++) {
+    pageOptions += `<li class="page-item page-link">${index}</li>`;
+  }
+  pageList.insertAdjacentHTML("afterbegin", pageOptions);
+
+  pageList.insertAdjacentHTML(
+    "afterbegin",
+    `<li class="page-item" id="page-previous">
+    <a class="page-link" href="#" aria-label="Previous">
+      <span aria-hidden="true">&laquo;</span>
+    </a>
+  </li>`
+  );
+
+  pageList.insertAdjacentHTML(
+    "beforeend",
+    `<li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>`
+  );
+}
 
 function fetchMenus(userId, storeId, menuTypeId) {
   const data = {
