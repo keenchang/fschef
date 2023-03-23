@@ -1,5 +1,6 @@
 import numpy as np
 import os, requests, json, uuid
+from sqlalchemy import create_engine, text
 from flask import render_template, request, jsonify, url_for, redirect
 from . import orders_bp
 from app import parameters
@@ -8,9 +9,9 @@ from app.models.orders import Order
 from app.models.stores import Store
 from app.models.tables import Table, TableState
 from app.utils import check_login_in, get_auth_signature, mpg
-from sqlalchemy import create_engine, text
 
-engine = create_engine(os.getenv('DATABASE_URL').replace("postgres", "postgresql"))
+engine = create_engine(os.getenv('DATABASE_URL').replace("postgres:", "postgresql:"))
+
 
 # line pay api的headers參數
 channel_id = os.environ.get('CHANNEL_ID')

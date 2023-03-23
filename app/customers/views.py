@@ -6,10 +6,10 @@ from app.models.stores import Store
 from app.models.tables import Table, TableState
 from app.models.menu_types import Menu_type
 from flask_socketio import emit
-from flask import render_template, request, jsonify
 from sqlalchemy import create_engine, text
+from flask import render_template, request, jsonify
 
-engine = create_engine(os.getenv('DATABASE_URL').replace("postgres", "postgresql"))
+engine = create_engine(os.getenv('DATABASE_URL').replace("postgres:", "postgresql:"))
 
 
 # 前台使用者功能

@@ -1,8 +1,12 @@
 import os
+import eventlet
 from flask import Flask
 from app import parameters
 from app.extensions import db, socketio
 from app.models import users, stores, menu_types, tables, orders
+
+# 和socket.io相關
+eventlet.monkey_patch()
 
 # 取得global parameters
 parameters.init()
@@ -15,7 +19,7 @@ def create_app():
     app.config.from_object(CONFIG_TYPE)
 
     db.init_app(app)
-    socketio.init_app(app)
+    socketio.init_app(app, async_mode='eventlet')
 
     # Register blueprints
     register_blueprints(app)

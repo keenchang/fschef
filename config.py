@@ -7,7 +7,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     # Default settings
-    FLASK_ENV = os.getenv('FLASK_ENV', default='development')
     DEBUG = False
     TESTING = False
     WTF_CSRF_ENABLED = True
@@ -44,5 +43,5 @@ class TestingConfig(Config):
     WTF_CSRF_ENABLED = False
 
 class ProductionConfig(Config):
-    FLASK_ENV = 'production'
+    DEBUG = False
 
