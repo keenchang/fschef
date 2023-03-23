@@ -122,10 +122,11 @@ def delete(id):
         conn.commit()
     menu_type_id = menu.menu_type_id
 
-    if menu.img_path != None:
-        shutil.rmtree(os.path.join(current_app.static_folder, 
-                                   current_app.config['UPLOAD_FOLDER'], 
-                                   str(menu.id)))
+    save_dir = os.path.join(current_app.static_folder, 
+                            current_app.config['UPLOAD_FOLDER'], 
+                            str(menu.id))
+    if menu.img_path != None and os.path.exists(save_dir):
+        shutil.rmtree(save_dir)
 
     sql_cmd = text(f"DELETE FROM menu{user_id} WHERE id = {id}")
 
