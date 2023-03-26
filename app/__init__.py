@@ -1,12 +1,8 @@
 import os
-import eventlet
 from flask import Flask
 from app import parameters
 from app.extensions import db, socketio
 from app.models import users, stores, menu_types, tables, orders
-
-# 和socket.io相關
-eventlet.monkey_patch()
 
 # 取得global parameters
 parameters.init()

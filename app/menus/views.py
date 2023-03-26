@@ -1,4 +1,4 @@
-import os, shutil
+import os, uuid, shutil, boto3
 from . import menus_bp
 from app.models.menu_types import Menu_type
 from app.utils import check_login_in
@@ -6,6 +6,13 @@ from sqlalchemy import create_engine, text
 from flask import render_template, redirect, url_for, request, current_app, session
 
 engine = create_engine(os.getenv('DATABASE_URL').replace("postgres:", "postgresql:"))
+
+s3_bucket_name = os.getenv('S3_BUCKET_NAME')
+s3_region = os.getenv('S3_REGION')
+s3 = boto3.resource("s3", 
+                  aws_access_key_id = os.getenv('AMAZON_S3_ID'), 
+                  aws_secret_access_key = os.getenv('AMAZON_S3_KEY')
+                  )
 
 
 @menus_bp.route('/menu_type/<int:menu_type_id>/menus')
@@ -44,21 +51,17 @@ def create(menu_type_id):
         conn.commit()
 
     if img.filename != '':
+        # 上傳圖片到AWS S3
+        new_filename = uuid.uuid4().hex + '.' + img.filename.rsplit('.', 1)[1].lower()
+        s3.Bucket(s3_bucket_name).upload_fileobj(img, new_filename)
+
         # 把圖片路徑寫入Menu
-        sql_cmd = text(f"UPDATE menu{user_id} SET img_path = '{os.path.join(current_app.config['UPLOAD_FOLDER'], str(menu_id), img.filename)}' WHERE id = {menu_id}")
+        img_path = f"https://{s3_bucket_name}.s3.{s3_region}.amazonaws.com/{new_filename}"
+        sql_cmd = text(f"UPDATE menu{user_id} SET img_path = '{img_path}' WHERE id = {menu_id}")
 
         with engine.connect() as conn:
             conn.execute(sql_cmd)
             conn.commit()
-
-        # 把圖片存到static/img/{menu_id}內
-        save_dir = os.path.join(current_app.static_folder, 
-                                current_app.config['UPLOAD_FOLDER'], 
-                                str(menu_id))
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
-        
-        img.save(os.path.join(save_dir, img.filename))
 
     return redirect(url_for('menus_bp.index', menu_type_id=menu_type_id))
 

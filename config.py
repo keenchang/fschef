@@ -34,6 +34,12 @@ class Config:
     MPG_MERCHANT_ID = os.getenv('MPG_MERCHANT_ID')
     MPG_IV = os.getenv('MPG_IV')
     MPG_KEY = os.getenv('MPG_KEY')
+
+    # Settings for AWS S3
+    AMAZON_S3_ID = os.getenv('AMAZON_S3_ID')
+    AMAZON_S3_KEY = os.getenv('AMAZON_S3_KEY')
+    S3_BUCKET_NAME = os.getenv('S3_BUCKET_NAME')
+    S3_REGION = os.getenv('S3_REGION')
     
 class DevelopmentConfig(Config):
     DEBUG = True

@@ -34,7 +34,7 @@
             <td scope="row">{{ menu.name }}</td>
             <td class="w-25">
                 {% if menu.img_path != None %}
-                <img class="card-img-top" src="{{ url_for('menus_bp.static', filename=menu.img_path) }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ menu.img_path }}" alt="Card image cap">
                 {% else %}
                 <img class="card-img-top" src="#" alt="Card image cap">
                 {% endif %}
