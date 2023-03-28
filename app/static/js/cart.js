@@ -24,7 +24,7 @@ function updateTable(_message, DB) {
     DB[_name].count++;
 
     const el = `<tr data-menu-id=${DB[_name].id}>
-                  <td><img class="card-img-top" src="/static/${DB[_name].imgPath}" alt="Card image cap" style="width:50px;"></td>
+                  <td><img class="card-img-top" src="${DB[_name].imgPath}" alt="Card image cap" style="width:50px;"></td>
                   <td data-name=${_name}>${_name}</td>
                   <td><input type="number" class="quantity" value=${DB[_name].count}></td>
                   <td>${DB[_name].price}</td>

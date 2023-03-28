@@ -95,21 +95,17 @@ def update(id):
         conn.commit()
 
     if img.filename != '':
+        # 上傳圖片到AWS S3
+        new_filename = uuid.uuid4().hex + '.' + img.filename.rsplit('.', 1)[1].lower()
+        s3.Bucket(s3_bucket_name).upload_fileobj(img, new_filename)
+
         # 把圖片路徑寫入Menu
-        sql_cmd = text(f"UPDATE menu{user_id} SET img_path = '{os.path.join(current_app.config['UPLOAD_FOLDER'], str(menu_id), img.filename)}' WHERE id = {menu_id}")
+        img_path = f"https://{s3_bucket_name}.s3.{s3_region}.amazonaws.com/{new_filename}"
+        sql_cmd = text(f"UPDATE menu{user_id} SET img_path = '{img_path}' WHERE id = {menu_id}")
 
         with engine.connect() as conn:
             conn.execute(sql_cmd)
             conn.commit()
-
-        # 把圖片存到static/img/{menu_id}內
-        save_dir = os.path.join(current_app.static_folder, 
-                                current_app.config['UPLOAD_FOLDER'], 
-                                str(menu_id))
-        if not os.path.exists(save_dir):
-            os.makedirs(save_dir)
-        
-        img.save(os.path.join(save_dir,  img.filename))
 
     return redirect(url_for('menus_bp.index', menu_type_id=menu_type_id))
 
@@ -119,23 +115,10 @@ def update(id):
 def delete(id):
     user_id = session.get("id")
 
-    sql_cmd = text(f"SELECT * FROM menu{user_id} WHERE id = {id}")
+    sql_cmd = text(f"DELETE FROM menu{user_id} WHERE id = {id} RETURNING menu_type_id")
     with engine.connect() as conn:
-        menu = conn.execute(sql_cmd).fetchone()
-        conn.commit()
-    menu_type_id = menu.menu_type_id
-
-    save_dir = os.path.join(current_app.static_folder, 
-                            current_app.config['UPLOAD_FOLDER'], 
-                            str(menu.id))
-    if menu.img_path != None and os.path.exists(save_dir):
-        shutil.rmtree(save_dir)
-
-    sql_cmd = text(f"DELETE FROM menu{user_id} WHERE id = {id}")
-
-    with engine.connect() as conn:
-        conn.execute(sql_cmd)
+        [menu_type_id] = conn.execute(sql_cmd)
         conn.commit()
 
-    return redirect(url_for('menus_bp.index', menu_type_id=menu_type_id))
+    return redirect(url_for('menus_bp.index', menu_type_id=menu_type_id[0]))
 

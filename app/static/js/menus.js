@@ -73,7 +73,7 @@ function add_menu(parents, menuList, index) {
   menuList[index].forEach((element) => {
     options += `<div class="col-12 col-md-4">
                   <div class="card" data-menu-id=${element["id"]}>
-                    <img class="card-img-top" src="/static/${element["img_path"]}" alt="Card image cap">
+                    <img class="card-img-top" src="${element["img_path"]}" alt="Card image cap">
                     <div class="card-body">
                       <h3 class="card-title">${element["name"]}</h3>
                       <p class="text price">${element["price"]}</p>

@@ -174,7 +174,7 @@ def pay(order_id):
 
         return redirect(web_url)
     else:
-        return redirect(url_for('menus', store_id=table.store_id, table_id=table.id))
+        return redirect(url_for('customers_bp.menus', store_id=table.store_id, table_id=table.id))
 
 
 @orders_bp.route('/order/<int:order_id>/blue_pay')
@@ -227,7 +227,7 @@ def checkout(order_id):
     db.session.commit()
 
     message = { "storeId": table.store_id, "tableId": table.id, "tableStatus": table.status.value }
-    socketio.emit("sendOrderStatus", message, broadcast=True)
+    socketio.emit("sendOrderStatus", message)
 
     return redirect(url_for('customers_bp.menus', store_id=table.store_id, table_id=table.id))
 

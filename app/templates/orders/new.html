@@ -20,7 +20,7 @@
     <tbody>
       {% for order_info in order_infos.values() %}
       <tr>
-        <td scope="row"><img class="card-img-top" src="/static/{{ order_info['imgPath'] }}" alt="Card image cap" style="width:100px;"></td>
+        <td scope="row"><img class="card-img-top" src="{{ order_info['imgPath'] }}" alt="Card image cap" style="width:100px;"></td>
         <td scope="row">{{ order_info['name'] }}</td>
         <td scope="row">{{ order_info['count'] }}</td>
         <td scope="row">{{ order_info['price'] }}</td>
